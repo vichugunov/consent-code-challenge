@@ -8,8 +8,30 @@ services:
     image: postgres:13.2
     restart: always
     environment:
-      POSTGRES_USER: code
-      POSTGRES_PASSWORD: challenge
-      POSTGRES_DB: code-challenge
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
     ports:
       - "5432:5432"
+  backend:
+    build: ./server
+    working_dir: /app
+    command: npm run start:dev
+    environment:
+      - POSTGRES_HOST
+      - POSTGRES_PORT
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - port=3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server/tsconfig.json:/app/tsconfig.json
+      - ./server/.env.example:/app/.env.example
+      - ./server/tsconfig.build.json:/app/tsconfig.build.json
+      - ./server/.eslintrc.js:/app/.eslintrc.js
+      - ./server/src:/app/src
+      - ./server/bin:/app/bin
+    depends_on:
+      - postgres
