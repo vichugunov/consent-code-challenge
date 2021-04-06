@@ -1,0 +1,15 @@
+version: "3.4"
+x-logging: &default-logging
+  options:
+    max-size: "50m"
+
+services:
+  postgres:
+    image: postgres:13.2
+    restart: always
+    environment:
+      POSTGRES_USER: code
+      POSTGRES_PASSWORD: challenge
+      POSTGRES_DB: code-challenge
+    ports:
+      - "5432:5432"
