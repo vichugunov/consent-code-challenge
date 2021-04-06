@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { IUserResponse } from './interfaces/users-response.interface'
 import { User } from './user.entity'
 import { Event } from './../events/event.entity'
+import { UnprocessableException } from '../exceptions/unprocessable.exception'
 
 @Injectable()
 export class UsersService {
@@ -13,6 +14,11 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<IUserResponse> {
+    const usersWithEmail = await this.db.users.count({ email: createUserDto.email })
+    if (usersWithEmail > 0) {
+      throw new UnprocessableException('User with provided email exists')
+    }
+
     const user = new User()
     user.email = createUserDto.email
     const savedUser = await this.db.users.save(user)
