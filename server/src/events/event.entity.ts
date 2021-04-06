@@ -1,13 +1,20 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { User } from './../users/user.entity'
 
+export enum EventTypeEnum {
+  Email = 'email_notifications',
+  Sms = 'sms_notifications'
+}
+
 @Entity({ name: 'events' })
 export class Event {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  // TODO make it enum
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: EventTypeEnum,
+  })
   type: string
 
   // TODO make it bool

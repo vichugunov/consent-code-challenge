@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, UsePipes } from '@nestjs/common'
-import { UnprocessableException } from 'src/exceptions/unprocessable.exception'
-import { JoiValidationPipe } from 'src/validation/joi'
+import { UnprocessableException } from '../exceptions/unprocessable.exception'
+import { JoiValidationPipe } from '../validation/joi'
 import { CreateUserDto } from './dto/create-user.dto'
 import { IUserResponse } from './interfaces/users-response.interface'
 import { User } from './user.entity'
