@@ -1,5 +1,6 @@
+import { EventTypeEnum } from './../event.entity'
+
 export interface IEventResponse {
-  // make it enum
-  id: string
+  id: EventTypeEnum
   enabled: boolean
 }

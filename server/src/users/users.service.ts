@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { DbService } from 'src/db/db.service'
-import { IEventResponse } from 'src/events/interfaces/event-response.interface'
+import { DbService } from '../db/db.service'
+import { IEventResponse } from '../events/interfaces/event-response.interface'
 import { CreateUserDto } from './dto/create-user.dto'
 import { IUserResponse } from './interfaces/users-response.interface'
 import { User } from './user.entity'
@@ -67,7 +67,7 @@ export class UsersService {
   }
 
   async remove(id: string): Promise<void> {
-    const user = this.db.users.findOne({ id })
+    const user = await this.db.users.findOne({ id })
     if (!user) {
       throw new NotFoundException('User with provided id not found')
     }

@@ -1,4 +1,4 @@
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm'
 import { databaseConnections } from './database-connections'
 import { Module } from '@nestjs/common'
 import { User } from '../users/user.entity'
@@ -10,7 +10,9 @@ import { DbService } from './db.service'
         ...databaseConnections,
         TypeOrmModule.forFeature([User, Event])
     ],
-    providers: [DbService],
+    providers: [
+      DbService
+    ],
     exports: [
       TypeOrmModule,
       DbService

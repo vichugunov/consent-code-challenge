@@ -1,10 +1,11 @@
+import { EventTypeEnum } from './../event.entity'
+
 class UserIdentifier {
   id: string
 }
 
-// TODO validation and enum
 class Consent {
-  id: string
+  id: EventTypeEnum
   enabled: boolean
 }
 
