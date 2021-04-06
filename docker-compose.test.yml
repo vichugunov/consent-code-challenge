@@ -1,0 +1,40 @@
+version: "3.4"
+x-logging: &default-logging
+  options:
+    max-size: "50m"
+
+services:
+  postgres:
+    image: postgres:13.2
+    restart: always
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+    ports:
+      - "5432:5432"
+  test:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile.prod
+    working_dir: /app
+    command: npx jest --config ./e2e/jest-e2e.json
+    environment:
+      - POSTGRES_HOST
+      - POSTGRES_PORT
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - port=3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server/e2e:/app/e2e
+      - ./server/tsconfig.json:/app/tsconfig.json
+      - ./server/.env.example:/app/.env.example
+      - ./server/tsconfig.build.json:/app/tsconfig.build.json
+      - ./server/.eslintrc.js:/app/.eslintrc.js
+      - ./server/src:/app/src
+      - ./server/bin:/app/bin
+    depends_on:
+      - postgres

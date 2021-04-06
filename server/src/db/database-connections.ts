@@ -1,6 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-// TODO switch to .env
 export const databaseConnections = [
     TypeOrmModule.forRoot({
       type: 'postgres',
