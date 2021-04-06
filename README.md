@@ -9,6 +9,7 @@ docker-compose up
 
 ```
 cd server
+npm i
 npm run test:cov
 npm run test:e2e
 ```
