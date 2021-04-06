@@ -13,7 +13,6 @@ export class EventsService {
     private readonly db: DbService
   ) {}
 
-  // TODO throw if user not found
   async create(createEventDto: CreateEventDto): Promise<Event[]> {
     const dt = new Date()
     const user = await this.db.users.findOne({id: createEventDto.user.id})
