@@ -4,7 +4,7 @@ import { UsersService } from './users.service'
 import { mockRepository } from '../test-utils/mock-repository'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { User } from '../users/user.entity'
-import { Event } from '../events/event.entity'
+import { Event, EventTypeEnum } from '../events/event.entity'
 import { UsersController } from './users.controller'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UnprocessableException } from '../exceptions/unprocessable.exception'
@@ -19,6 +19,17 @@ const dbMock = {
 const createDtoExample = new CreateUserDto()
 createDtoExample.email = 'test@gmail.com'
 const testId = uuidv4()
+
+const user = new User()
+user.id = testId
+user.email = createDtoExample.email
+
+
+const event = new Event()
+event.id = uuidv4()
+event.type = EventTypeEnum.Email
+event.enabled = true
+event.user = user
 
 describe('UsersService', () => {
   let service: UsersService
@@ -67,5 +78,15 @@ describe('UsersService', () => {
     } catch (e) {
       expect(e).toBeInstanceOf(NotFoundException)
     }
+  })
+
+  it('should delete a user and all associated events', async() => {
+    dbMock.users.findOne.mockResolvedValueOnce(user)
+    dbMock.events.delete.mockResolvedValueOnce(null)
+    dbMock.users.delete.mockResolvedValueOnce(null)
+
+    await service.remove(testId)
+    expect(dbMock.events.delete).toBeCalledWith({ user })
+    expect(dbMock.users.delete).toBeCalledWith(user.id)
   })
 })
