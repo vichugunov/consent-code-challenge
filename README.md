@@ -6,7 +6,8 @@ docker-compose up
 ```
 
 # Swagger
-You can navigate to http://localhost:3000/api to see a nice swagger definition
+You can navigate to http://localhost:3000/api to see a nice swagger definition.
+
 To generate and download a Swagger JSON file, navigate to http://localhost:3000/api-json
 
 # Tests
