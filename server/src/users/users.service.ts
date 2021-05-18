@@ -62,8 +62,20 @@ export class UsersService {
     })
   }
 
-  findOne(id: string): Promise<User> {
-    return this.db.users.findOne(id)
+  async findOne(id: string): Promise<IUserResponse> {
+    const user = await this.db.users.findOne(id)
+
+    if (!user) {
+      throw new NotFoundException('User with provided id not found')
+    }
+
+    const consents = await this.getGroupedConsents(user)
+
+    return {
+      id: user.id,
+      email: user.email,
+      consents
+    }
   }
 
   async remove(id: string): Promise<void> {
@@ -72,6 +84,7 @@ export class UsersService {
       throw new NotFoundException('User with provided id not found')
     }
 
+    await this.db.events.delete({ user })
     await this.db.users.delete(id)
   }
 }
