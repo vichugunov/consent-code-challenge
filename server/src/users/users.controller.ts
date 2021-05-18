@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpException, Param, ParseUUIDPipe, Post, UsePipes } from '@nestjs/common'
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags, ApiUnprocessableEntityResponse } from '@nestjs/swagger'
-import { GenericException } from 'src/exceptions/generic.exception'
+import { GenericException } from '../exceptions/generic.exception'
 import { UnprocessableException } from '../exceptions/unprocessable.exception'
 import { JoiValidationPipe } from '../validation/joi'
 import { CreateUserDto } from './dto/create-user.dto'
